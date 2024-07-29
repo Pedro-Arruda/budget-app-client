@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import { CompoundInterest } from "./pages/CompoundInterests";
 import { Home } from "./pages/Home";
-import { Transactions } from "./pages/Transactions";
 
 export const Router = () => {
   const routes = [
@@ -11,8 +11,8 @@ export const Router = () => {
     },
 
     {
-      path: "/transactions",
-      component: Transactions,
+      path: "/compound-interest",
+      component: CompoundInterest,
     },
   ];
 

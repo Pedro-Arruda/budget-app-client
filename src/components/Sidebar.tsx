@@ -1,4 +1,4 @@
-import { ChartLine } from "phosphor-react";
+import { ChartLine, CurrencyCircleDollar } from "phosphor-react";
 
 export const Sidebar = () => {
   return (
@@ -11,12 +11,12 @@ export const Sidebar = () => {
             Dashboard
           </a>
         </li>
-        {/* <li className="flex items-center gap-4">
+        <li className="flex items-center gap-4">
           <CurrencyCircleDollar size={24} />
-          <a className="font-medium" href="/transactions">
-            Transações
+          <a className="font-medium" href="/compound-interest">
+            Compound Interest
           </a>
-        </li> */}
+        </li>
       </ul>
     </div>
   );

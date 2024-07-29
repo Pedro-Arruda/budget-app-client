@@ -9,7 +9,7 @@ interface ITable {
 export const Table = ({ columns, items, className }: ITable) => {
   return (
     <div
-      className={`border-[1px] bg-[#1d1d21] border-neutral-700 max-h-[300px] rounded-md ${className}   overflow-y-auto`}
+      className={`border-[1px] bg-[#1d1d21] border-neutral-700 max-h-[250px] rounded-md ${className} overflow-x-hidden  overflow-y-auto`}
     >
       <table className="w-full">
         <thead className="border-b-[1px] border-neutral-700">

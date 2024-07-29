@@ -100,33 +100,24 @@ export const LatestTransacitons = () => {
                 </option>
               ))}
             </select>
-
-            {/* <Button
-              onClick={(e) => {
-                e.preventDefault();
-                fetchTransations();
-              }}
-              type="submit"
-            >
-              Filter
-              <Funnel size={22} />
-            </Button> */}
           </div>
         </form>
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex justify-between gap-5">
         {transactions && (
-          <Table
-            columns={[
-              { label: "Description", key: "description", type: "w-full" },
-              { label: "Amount", key: "amount", type: "currency" },
-              { label: "Category", key: "category" },
-              { label: "Date", key: "date", type: "date" },
-            ]}
-            items={transactions}
-            className="mb-3 "
-          />
+          <>
+            <Table
+              columns={[
+                { label: "Description", key: "description", type: "w-full" },
+                { label: "Amount", key: "amount", type: "currency" },
+                // { label: "Category", key: "category" },
+                // { label: "Date", key: "date", type: "date" },
+              ]}
+              items={transactions}
+              className="mb-3 w-full"
+            />
+          </>
         )}
       </div>
     </div>
