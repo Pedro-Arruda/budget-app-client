@@ -1,8 +1,17 @@
+import { Plus } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "../../../components/Button";
 import { Table } from "../../../components/Table";
 import { getNextAndPreviousYears } from "../../../functions/getDates";
 import { sumKeyOfObject } from "../../../functions/sumOfKeyObject";
 import { months } from "../../../utils/months";
+import { ModalAddTransactions } from "./ModalAddTransaction";
+
+interface IFieldsNewTransaction {
+  date: string | Date;
+  description: string;
+  amount: string;
+}
 
 interface IFields {
   month: string;
@@ -10,13 +19,22 @@ interface IFields {
 }
 
 export const LatestTransacitons = () => {
-  const timeoutRef = useRef<number | null>(null);
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+
+  const [fieldsNewTransactions, setFieldsNewTransaction] =
+    useState<IFieldsNewTransaction>({
+      description: "",
+      amount: "",
+      date: new Date(),
+    });
 
   const [fields, setFields] = useState<IFields>({
     month: String(new Date().getMonth() + 1),
     year: String(new Date().getFullYear()),
   });
+
   const [transactions, setTransactions] = useState<ITransaction[]>();
+  const timeoutRef = useRef<number | null>(null);
 
   const fetchTransations = async () => {
     const { month, year } = fields;
@@ -39,6 +57,28 @@ export const LatestTransacitons = () => {
     setTransactions(data);
   };
 
+  const handleSubmit = async () => {
+    try {
+      await fetch(`http://localhost:3000/transactions/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify(fieldsNewTransactions),
+      });
+
+      setIsOpenAddModal(false);
+      setFieldsNewTransaction({
+        description: "",
+        amount: "",
+        date: new Date(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -57,7 +97,20 @@ export const LatestTransacitons = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="font-bold text-2xl">Latest Transactions</h1>
+      {isOpenAddModal && (
+        <ModalAddTransactions
+          fields={fieldsNewTransactions}
+          setFields={setFieldsNewTransaction}
+          handleSubmit={handleSubmit}
+          setIsOpenModal={setIsOpenAddModal}
+        />
+      )}
+      <div className="flex justify-between items-center">
+        <h1 className="font-bold text-2xl">Latest Transactions</h1>
+        <Button className="py-1" onClick={() => setIsOpenAddModal(true)}>
+          Add <Plus />
+        </Button>
+      </div>
       <div className="flex justify-between items-center">
         <form className="flex justify-between items-center w-full">
           {transactions && (
@@ -111,11 +164,11 @@ export const LatestTransacitons = () => {
               columns={[
                 { label: "Description", key: "description", type: "w-full" },
                 { label: "Amount", key: "amount", type: "currency" },
-                // { label: "Category", key: "category" },
-                // { label: "Date", key: "date", type: "date" },
+                { label: "Category", key: "category" },
+                { label: "Date", key: "date", type: "date" },
               ]}
               items={transactions}
-              className="mb-3 w-full"
+              className="mb-3 w-full  max-h-[250px] "
             />
           </>
         )}
