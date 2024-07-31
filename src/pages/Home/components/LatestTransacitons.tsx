@@ -1,5 +1,5 @@
 import { Plus } from "phosphor-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "../../../components/Button";
 import { Table } from "../../../components/Table";
 import { getNextAndPreviousYears } from "../../../functions/getDates";
@@ -18,7 +18,17 @@ interface IFields {
   year: string;
 }
 
-export const LatestTransacitons = () => {
+interface ILatestTransacitons {
+  transactions: ITransaction[];
+  fields: IFields;
+  setFields: (fields: IFields) => void;
+}
+
+export const LatestTransacitons = ({
+  transactions,
+  fields,
+  setFields,
+}: ILatestTransacitons) => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 
   const [fieldsNewTransactions, setFieldsNewTransaction] =
@@ -27,35 +37,6 @@ export const LatestTransacitons = () => {
       amount: "",
       date: new Date(),
     });
-
-  const [fields, setFields] = useState<IFields>({
-    month: String(new Date().getMonth() + 1),
-    year: String(new Date().getFullYear()),
-  });
-
-  const [transactions, setTransactions] = useState<ITransaction[]>();
-  const timeoutRef = useRef<number | null>(null);
-
-  const fetchTransations = async () => {
-    const { month, year } = fields;
-
-    const response = await fetch(`http://localhost:3000/transactions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        itemId: "cc884117-f5b2-4774-97f9-694dd0b8762f",
-        month,
-        year,
-      }),
-    });
-
-    const data: ITransaction[] = await response.json();
-
-    setTransactions(data);
-  };
 
   const handleSubmit = async () => {
     try {
@@ -78,22 +59,6 @@ export const LatestTransacitons = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(async () => {
-      await fetchTransations();
-    }, 500);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [fields.month, fields.year]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -130,6 +95,7 @@ export const LatestTransacitons = () => {
               {months.map((month) => (
                 <option
                   value={month.value}
+                  key={month.value}
                   className="bg-neutral-800 py-1.5 px-8 border-2 border-neutral-800 rounded-md outline-none text-neutral-300"
                 >
                   {month.label}
@@ -146,6 +112,7 @@ export const LatestTransacitons = () => {
             >
               {getNextAndPreviousYears(new Date().getFullYear()).map((year) => (
                 <option
+                  key={year}
                   value={year}
                   className="bg-neutral-800 py-1.5 px-8 border-2 border-neutral-800 rounded-md outline-none text-neutral-300"
                 >
@@ -159,18 +126,16 @@ export const LatestTransacitons = () => {
 
       <div className="w-full flex justify-between gap-5">
         {transactions && (
-          <>
-            <Table
-              columns={[
-                { label: "Description", key: "description", type: "w-full" },
-                { label: "Amount", key: "amount", type: "currency" },
-                { label: "Category", key: "category" },
-                { label: "Date", key: "date", type: "date" },
-              ]}
-              items={transactions}
-              className="mb-3 w-full  max-h-[250px] "
-            />
-          </>
+          <Table
+            columns={[
+              { label: "Description", key: "description", type: "w-full" },
+              { label: "Amount", key: "amount", type: "currency" },
+              { label: "Category", key: "category" },
+              { label: "Date", key: "date", type: "date" },
+            ]}
+            items={transactions}
+            className="mb-3 w-full  max-h-[250px] max-w-[100%] "
+          />
         )}
       </div>
     </div>

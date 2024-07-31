@@ -9,9 +9,8 @@ import {
 export const LOCAL_STORAGE_AUTH_KEY = "auth";
 
 export interface IAuth {
-  accessToken: string;
-  apiKey: string;
-  item?: any;
+  itemId: string;
+  account: IAccount;
 }
 
 export interface AuthContextData {

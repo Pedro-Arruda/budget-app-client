@@ -7,8 +7,6 @@ interface ITable {
 }
 
 export const Table = ({ columns, items, className }: ITable) => {
-  console.log("items", items);
-
   return (
     <div
       className={`border-[1px] bg-[#1d1d21] border-neutral-700 rounded-md ${className} overflow-x-hidden  overflow-y-auto`}

@@ -1,6 +1,7 @@
 import { Plus } from "phosphor-react";
 import { useState } from "react";
 import { Button } from "../../../components/Button";
+import { useAuth } from "../../../contexts/PlugglyContext";
 import { currencyFormat } from "../../../functions/formatters";
 import { ModalAddFixedExpense } from "./ModalAddFixedExpense";
 
@@ -14,6 +15,8 @@ interface IFixedExpenses {
 }
 
 export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
+  const { auth } = useAuth();
+
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 
   const [fields, setFields] = useState<IFields>({
@@ -23,13 +26,16 @@ export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
 
   const handleSubmit = async () => {
     try {
-      await fetch(`http://localhost:3000/fixed-expenses`, {
+      await fetch(`http://localhost:3000/fixed-expenses/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           accept: "application/json",
         },
-        body: JSON.stringify(fields),
+        body: JSON.stringify({
+          fixedExpense: { ...fields },
+          accountId: auth?.account.id,
+        }),
       });
 
       setIsOpenAddModal(false);
@@ -61,7 +67,7 @@ export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
             </div>
             <div className="mt-3">
               {fixedExpenses.map((fixedExpense) => (
-                <div className="flex gap-3">
+                <div className="flex gap-3" key={fixedExpense.id}>
                   <p className="font-semibold">{fixedExpense.description} - </p>
                   <p className="font-semibold">
                     {currencyFormat(fixedExpense.amount)}

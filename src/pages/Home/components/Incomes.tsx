@@ -1,6 +1,7 @@
 import { Plus } from "phosphor-react";
 import { useState } from "react";
 import { Button } from "../../../components/Button";
+import { useAuth } from "../../../contexts/PlugglyContext";
 import { currencyFormat } from "../../../functions/formatters";
 import { ModalAddIncome } from "./ModalAddIncome";
 
@@ -17,6 +18,7 @@ interface IIncomesProps {
 }
 
 export const Incomes = ({ incomes }: IIncomesProps) => {
+  const { auth } = useAuth();
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 
   const [fields, setFields] = useState<IFields>({
@@ -29,15 +31,18 @@ export const Incomes = ({ incomes }: IIncomesProps) => {
 
   const handleSubmit = async () => {
     const formattedFields = {
-      description: fields.description,
-      amount: fields.amount,
-      everyMonth: fields.everyMonth,
-      ...(!fields.everyMonth && { month: fields.month }),
-      ...(!fields.everyMonth && { year: fields.year }),
+      income: {
+        description: fields.description,
+        amount: fields.amount,
+        everyMonth: fields.everyMonth,
+        ...(!fields.everyMonth && { month: fields.month }),
+        ...(!fields.everyMonth && { year: fields.year }),
+      },
+      accountId: auth?.account.id,
     };
 
     try {
-      await fetch(`http://localhost:3000/incomes`, {
+      await fetch(`http://localhost:3000/incomes/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +86,7 @@ export const Incomes = ({ incomes }: IIncomesProps) => {
             </div>
             <div className="mt-3">
               {incomes.map((income) => (
-                <div className="flex gap-3">
+                <div className="flex gap-3" key={income.id}>
                   <p className="font-semibold">{income.description} - </p>
                   <p className="font-semibold">
                     {currencyFormat(income.amount)}

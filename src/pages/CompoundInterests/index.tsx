@@ -77,8 +77,6 @@ export const CompoundInterest = () => {
 
   useEffect(() => {
     if (multipleCompoundInterest) {
-      console.log();
-
       const columns: IColumn[] = Object.keys(multipleCompoundInterest[0]).map(
         (column) => ({
           label: column,
@@ -90,8 +88,6 @@ export const CompoundInterest = () => {
       setColumns(columns);
     }
   }, [multipleCompoundInterest]);
-
-  console.log(multipleCompoundInterest);
 
   return (
     <DefaultLayout>
