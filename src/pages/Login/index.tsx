@@ -12,12 +12,15 @@ export const Login = () => {
 
   const getAccessToken = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/auth/connect-token`, {
-        headers: {
-          "Content-Type": "application/json",
-          accept: "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://app-budget-api.vercel.app/auth/connect-token`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
