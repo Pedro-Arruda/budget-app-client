@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PluggyConnect } from "react-pluggy-connect";
 import { Button } from "../../components/Button";
 import { useAuth } from "../../contexts/PlugglyContext";
@@ -25,6 +25,11 @@ export const Login = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClick = async () => {
+    await getAccessToken();
+    setIsWidgetOpen(true);
   };
 
   const onSuccess = async (itemData: { item: any }) => {
@@ -56,10 +61,6 @@ export const Login = () => {
       }
     }
   };
-
-  useEffect(() => {
-    getAccessToken();
-  }, []);
 
   return (
     <div>
@@ -95,7 +96,11 @@ export const Login = () => {
               onSuccess={onSuccess}
             />
           ) : (
-            <Button onClick={() => setIsWidgetOpen(true)}>
+            <Button
+              onClick={() => {
+                handleClick();
+              }}
+            >
               Connect your bank account
             </Button>
           )}
