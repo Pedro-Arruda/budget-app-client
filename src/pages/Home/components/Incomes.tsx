@@ -42,7 +42,7 @@ export const Incomes = ({ incomes }: IIncomesProps) => {
     };
 
     try {
-      await fetch(`http://localhost:3000/incomes/create`, {
+      await fetch(`https://app-budget-api.vercel.app/incomes/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

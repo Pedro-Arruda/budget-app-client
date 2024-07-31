@@ -40,7 +40,7 @@ export const CompoundInterest = () => {
     };
 
     const responseCompoundInterests = await fetch(
-      `http://localhost:3000/compound-interests`,
+      `https://app-budget-api.vercel.app/compound-interests`,
       {
         method: "POST",
         headers: {
@@ -57,7 +57,7 @@ export const CompoundInterest = () => {
     if (dataCompoundInterest) setCompoundInterest(dataCompoundInterest);
 
     const responseMultipleCompoundInterests = await fetch(
-      `http://localhost:3000/compound-interests/multiple`,
+      `https://app-budget-api.vercel.app/compound-interests/multiple`,
       {
         method: "POST",
         headers: {

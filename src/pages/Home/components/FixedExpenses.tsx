@@ -26,7 +26,7 @@ export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
 
   const handleSubmit = async () => {
     try {
-      await fetch(`http://localhost:3000/fixed-expenses/create`, {
+      await fetch(`https://app-budget-api.vercel.app/fixed-expenses/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

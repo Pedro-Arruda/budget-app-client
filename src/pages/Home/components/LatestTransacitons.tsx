@@ -40,7 +40,7 @@ export const LatestTransacitons = ({
 
   const handleSubmit = async () => {
     try {
-      await fetch(`http://localhost:3000/transactions/create`, {
+      await fetch(`https://app-budget-api.vercel.app/transactions/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

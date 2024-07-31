@@ -40,7 +40,7 @@ export const Login = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:3000/auth/sync-account`,
+          `https://app-budget-api.vercel.app/auth/sync-account`,
           {
             method: "POST",
             body: JSON.stringify({ itemId: itemData.item.id }),
