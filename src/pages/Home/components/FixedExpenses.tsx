@@ -12,9 +12,13 @@ interface IFields {
 
 interface IFixedExpenses {
   fixedExpenses?: IFixedExpense[];
+  refetchData: () => Promise<void>;
 }
 
-export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
+export const FixedExpenses = ({
+  fixedExpenses,
+  refetchData,
+}: IFixedExpenses) => {
   const { auth } = useAuth();
 
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
@@ -43,6 +47,8 @@ export const FixedExpenses = ({ fixedExpenses }: IFixedExpenses) => {
     } catch (error) {
       console.log(error);
     }
+
+    await refetchData();
   };
 
   return (

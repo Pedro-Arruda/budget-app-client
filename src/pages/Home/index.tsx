@@ -98,7 +98,6 @@ export const Home = () => {
 
   useEffect(() => {
     fetchAll();
-    console.log("monthsReport", monthsReport);
   }, [fields, auth]);
 
   return (
@@ -112,8 +111,11 @@ export const Home = () => {
         <div className="flex gap-5">
           <div className="flex flex-col gap-5 bg-[#1d1d21]  p-5 rounded-md border-[3px] border-neutral-800 min-w-96 max-w-96">
             <CreditCart account={account} />
-            <FixedExpenses fixedExpenses={fixedExpenses} />
-            <Incomes incomes={incomes} />
+            <FixedExpenses
+              fixedExpenses={fixedExpenses}
+              refetchData={fetchAll}
+            />
+            <Incomes incomes={incomes} refetchData={fetchAll} />
           </div>
           <div className="flex flex-col gap-5 flex-1 bg-[#1d1d21]  p-5 rounded-md border-[3px] border-neutral-800">
             <LatestTransacitons

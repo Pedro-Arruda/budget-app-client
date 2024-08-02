@@ -15,9 +15,10 @@ interface IFields {
 
 interface IIncomesProps {
   incomes?: IIncome[];
+  refetchData: () => Promise<void>;
 }
 
-export const Incomes = ({ incomes }: IIncomesProps) => {
+export const Incomes = ({ incomes, refetchData }: IIncomesProps) => {
   const { auth } = useAuth();
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
 
@@ -62,6 +63,8 @@ export const Incomes = ({ incomes }: IIncomesProps) => {
     } catch (error) {
       console.log(error);
     }
+
+    await refetchData();
   };
 
   return (
