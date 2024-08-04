@@ -83,17 +83,21 @@ export const Home = () => {
 
   const fetchAll = async () => {
     setIsLoading(true);
+    try {
+      const promisses = [
+        fetchReports(),
+        fetchAccount(),
+        fetchFixedExpenses(),
+        fetchIncomes(),
+        fetchTransations(),
+      ];
 
-    const promisses = [
-      fetchReports(),
-      fetchAccount(),
-      fetchFixedExpenses(),
-      fetchIncomes(),
-      fetchTransations(),
-    ];
-
-    await Promise.all(promisses);
-    setIsLoading(false);
+      await Promise.all(promisses);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {

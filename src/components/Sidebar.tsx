@@ -23,8 +23,6 @@ export const Sidebar = () => {
     }
   };
 
-  console.log(isLoading);
-
   return (
     <div className="flex flex-col items-center max-w-96 min-w-[250px] bg-[#1d1d21] p-10 h-screen text-neutral-300">
       <h1 className="text-2xl font-semibold">LOGO</h1>

@@ -4,7 +4,6 @@ export const fetchApi = async (
   body?: Record<string, any>
 ) => {
   const baseURL = import.meta.env.VITE_API_URL;
-  console.log(baseURL);
 
   const response = await fetch(`https://app-budget-api.vercel.app${endpoint}`, {
     method,
